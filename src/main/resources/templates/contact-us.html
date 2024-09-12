@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base::html(
+        ~{::title},
+        ~{::content},
+        ~{},
+        ~{}
+    )}">
+<!-- uses the base html formats from base fragment-->
+
+<title>Contact us</title>
+
+
+<th:block th:fragment="content">
+    <h1 class="display-1">Contact Us Today!</h1>
+    <p class="lead"> We value your feedback</p>
+    <p>Email: travelgear@gmail.com</p>
+    <p>Phone: 90756352</p>
+    <form class="form">
+        <div>
+            <label>Enter your name</label>
+            <input type="text" class="form-control" />
+        </div>
+        <div>
+            <label>Enter your email</label>
+            <input type="email" class="form-control" />
+        </div>
+    </form>
+</th:block>
