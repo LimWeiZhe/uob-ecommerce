@@ -24,7 +24,7 @@ public class Product {
    // Default constructor
    public Product() {}
 
-   // Constructor with all fields except id
+      // Constructor with all fields except id
    public Product(String name, String description, BigDecimal price) {
        this.name = name;
        this.description = description;

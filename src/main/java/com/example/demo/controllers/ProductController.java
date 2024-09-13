@@ -15,23 +15,37 @@ import com.example.demo.repo.ProductRepo;
 @Controller
 public class ProductController {
     
-    @GetMapping("/products/create")
-    public String showCreateProductForm(Model model) {
-        model.addAttribute("product", new Product());
-        return "products/create";
-    }
-    private final ProductRepo productRepo;
-
+    // dependency injection = when spring boot creates an instance of ProductController, 
+    //it will automatically create an instance of ProductRepo 
+    //and pass it to the new instance of ProductController
     @Autowired
     public ProductController(ProductRepo productRepo) {
         this.productRepo = productRepo;
     }
 
+    private final ProductRepo productRepo;
+
+
+    // when we want to add forms, we always need 2 routes
+    // 1 route to display the form
+    // 1 route to process the form
+    @GetMapping("/products/create")
+    public String showCreateProductForm(Model model) {
+        //send an empty instance of the product model to the template
+        model.addAttribute("product", new Product());
+        return "products/create";
+    }
+
+    // creates a new product based on the inputs in create.hmtl
+    // and saves into the repo
     @PostMapping("/products/create")
     public String createProduct(@ModelAttribute Product newProduct) {
         productRepo.save(newProduct);
+
+        //a redirect tells the client to go to a different URL
         return "redirect:/products";
     }
+
 
     @GetMapping("/products")
     public String listProducts(Model model) {
@@ -42,10 +56,23 @@ public class ProductController {
     
     @GetMapping("/products/{id}")
     public String productDetails(@PathVariable Long id, Model model) {
-    Product product = productRepo.findById(id)
+    
+        // find the product with the matching id
+        Product product = productRepo.findById(id)
+                // throw an exception if product is not found
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-    model.addAttribute("product", product);
-    return "products/details";
+        // add it  the view model            
+        model.addAttribute("product", product);
+        return "products/details";
     }
+
+    
+    @GetMapping("/products/{id}/edit")
+    public String showUpdateProduct(@PathVariable Long id, Model model) {
+       Product product = productRepo.findById(id).orElseThrow( () -> new RuntimeException("Product not found"));
+       model.addAttribute(product);
+       return "products/edit";
+     
+   }
 }
 

@@ -14,17 +14,18 @@
 <table>
   <thead>
       <tr>
-          <th>ID</th>
           <th>Name</th>
           <th>Price</th>
-          <th>Action</th>
+          <th>Actions</th>
       </tr>
   </thead>
   <tbody>
       <tr th:each="product : ${products}">
-          <td th:text="${product.id}"></td>
           <td th:text="${product.name}"></td>
           <td th:text="${'$' + product.price}"></td>
+          <td>
+            <a th:href ="@{/products/{id}(id=${product.id})}">Product Details</a>
+          </td>
       </tr>
   </tbody>
 </table>
