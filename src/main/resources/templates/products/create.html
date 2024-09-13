@@ -15,7 +15,7 @@
        <!-- {product} here is linked to line 25 in product controller -->
        <!-- public String createProduct(@ModelAttribute Product newProduct)  -->
        <form th:object="${product}" method="post">
-            <div th:replace="~{products/product-form-fields::fields}"></div>
+            <div th:replace="~{products/products-form-fields::fields}"></div>
            <button type="submit" class="btn btn-primary">Create Product</button>
        </form>
    </div>

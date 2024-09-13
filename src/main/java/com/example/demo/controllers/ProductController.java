@@ -70,9 +70,17 @@ public class ProductController {
     @GetMapping("/products/{id}/edit")
     public String showUpdateProduct(@PathVariable Long id, Model model) {
        Product product = productRepo.findById(id).orElseThrow( () -> new RuntimeException("Product not found"));
-       model.addAttribute(product);
-       return "products/edit";
-     
+       model.addAttribute("product", product);
+       return "products/edit"; 
    }
+   
+   @PostMapping("/products/{id}/edit")
+   public String updateProduct(@PathVariable Long id, @ModelAttribute Product product) {
+     product.setId(id); // Ensure we're updating the correct product
+     productRepo.save(product);
+     return "redirect:/products";
+   }
+  
+  
 }
 
