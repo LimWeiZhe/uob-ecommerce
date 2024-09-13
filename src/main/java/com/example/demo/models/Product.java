@@ -28,6 +28,15 @@ public class Product {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+
+    // create the foreign key for the product for categories
+    @ManyToOne(fetch= FetchType.LAZY, optional = false)
+    // the name will be the column name in the Table
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+
+
     // Default constructor
     public Product() {
     }

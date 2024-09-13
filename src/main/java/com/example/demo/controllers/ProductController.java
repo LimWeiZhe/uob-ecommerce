@@ -100,12 +100,13 @@ public class ProductController {
     // 1. showing a delete form (asking the user if they really want to delete)
 
     @GetMapping("/products/{id}/delete")
-    public String showDeleteProductForm(@PathVariable Long id, Model model){
-        
-        var product = productRepo.findById(id)
-            .orElseThrow(()-> new RuntimeException("Product not found"));
+    public String showDeleteProductForm(@PathVariable Long id, Model model) {
+        Product product = productRepo.findById(id)
+               .orElseThrow(() -> new RuntimeException("Product not found"));
+        model.addAttribute("product", product);
         return "products/delete";
     }
+    
     // 2. process the delete
     @PostMapping("/products/{id}/delete")
     public String deleteProduct(@PathVariable Long id){
@@ -113,5 +114,6 @@ public class ProductController {
         return "redirect:/products";
     }
 
+    
 }
 
