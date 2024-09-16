@@ -25,7 +25,7 @@ public class SecurityConfig {
                 // if the url starts with /register,/login, /css or /js, can be accessed without login
                 // if not the cannot even login 
                .requestMatchers("/register", "/login", "/css/**", "/js/**").permitAll()
-               .anyRequest().authenticated()
+               .anyRequest().authenticated() // switch to .permitAll() to allow access , .authenticated()
            )
            // specify where the login form will be
            .formLogin(form -> form
