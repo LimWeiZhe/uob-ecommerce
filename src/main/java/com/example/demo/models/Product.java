@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "products")
@@ -36,6 +38,35 @@ public class Product {
     private Category category;
 
 
+    // add the reference to tags (chap12)
+    // we'll use a set
+    // 1. a set can contain many
+    // 2. can also reject duplicates
+    @ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    // order does not matter for this 
+    @JoinTable (name = "products_tags", 
+                joinColumns = @JoinColumn(name = "product_id"),
+                inverseJoinColumns =@JoinColumn(name = "tag_id")
+                )
+    private Set<Tag> tags = new HashSet<>();
+
+    public void setTags(Set<Tag> tags){
+        this.tags = tags;
+    }
+
+    public void addTag(Tag tag){
+        this.tags.add(tag);
+        tag.getProducts().add(this);
+    }
+
+    public void removeTag(Tag tag){
+        this.tags.remove(tag);
+        tag.getProducts().remove(this);
+    }
+    
+    public Set<Tag> getTags() {
+        return tags;
+    }
 
     // Default constructor
     public Product() {
@@ -81,6 +112,8 @@ public class Product {
         this.price = price;
     }
 
+    
+
     // toString method
     @Override
     public String toString() {
@@ -109,5 +142,13 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, description, price);
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

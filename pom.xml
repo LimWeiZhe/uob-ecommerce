@@ -66,6 +66,13 @@
 		<artifactId>spring-boot-starter-validation</artifactId> 
 		</dependency>
 		
+		<!--  try to do this at the end, if not will be troublesome to test if have to log in -->
+		<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
