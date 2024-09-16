@@ -16,9 +16,8 @@ public class HomeController {
     // When the user goes to the / URL on the server, call this method
     @GetMapping("/")
     // Tell Spring Boot this method returns a HTTP response
-    @ResponseBody
     public String helloWorld(){
-        return "<h1>Hello World</h1>";
+        return "home";
     }
 
     @GetMapping("/about-us")
@@ -41,6 +40,7 @@ public class HomeController {
     }
 
     @GetMapping("/contact-us")
+    //add @responsebody when not using html templates
     public String contactUs(){
         return "contact-us";
     }
