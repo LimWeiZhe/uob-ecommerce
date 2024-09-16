@@ -1,6 +1,7 @@
 // to be reused as a template
 
 <div th:fragment="fields">
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
     <div class="mb-3">
         <label for="name" class="form-label">Name:</label>
         <!-- // its purpose is to fill up the name in the Product Model -->

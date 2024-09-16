@@ -4,8 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 // @Configuration marks the class a configuration for some aspect of Springboot
@@ -38,9 +36,4 @@ public class SecurityConfig {
        return http.build();
    }
 
-    @Bean
-   public PasswordEncoder passwordEncoder() {
-        // Bcrypt is one of the password encryption algorithm
-       return new BCryptPasswordEncoder();
-   }
 }
