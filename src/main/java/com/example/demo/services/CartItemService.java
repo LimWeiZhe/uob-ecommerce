@@ -23,15 +23,22 @@ public class CartItemService {
         this.cartItemRepo = cartItemRepo;
     }
 
+    //when a method is transactional, if throws an exception for any reason,
+    // all database writes and updates will be undone
     @Transactional
     public CartItem addToCart(User user, Product product, int quantity) {
-        // does the item already exist in the cart?
+        // does the item already exist in the cart? 
+        // var <CartItem> 
         Optional<CartItem> existingItem = cartItemRepo.findByUserAndProduct(user, product);
 
+        // if the product already exists in the cart
+        // .isPresetnt() checks if there is a value or not 
         if (existingItem.isPresent()) {
             CartItem cartItem = existingItem.get();
             cartItem.setQuantity(cartItem.getQuantity() + 1);
             return cartItemRepo.save(cartItem);
+
+        // if the product is not in the cart 
         } else {
             CartItem newItem = new CartItem(user, product, quantity);
             return cartItemRepo.save(newItem);
