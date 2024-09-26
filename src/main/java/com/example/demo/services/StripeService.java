@@ -29,7 +29,7 @@ public class StripeService {
         Stripe.apiKey = stripeSecretKey;
     }
 
-    public Session createCheckoutSession(List<CartItem> cartItems, String successUrl, String cancelUrl) throws StripeException {
+    public Session createCheckoutSession(List<CartItem> cartItems,Long userId, String successUrl, String cancelUrl) throws StripeException {
         List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
         // 1. create line items
         // a line item is the description of the product + quantity _ price per unit (i.e one line in an invoice)
@@ -67,6 +67,7 @@ public class StripeService {
                 .setCancelUrl(cancelUrl)
                 .setSuccessUrl(successUrl)
                 .addAllLineItem(lineItems)
+                .setClientReferenceId(Long.toString(userId))
                 .build();
 
         return Session.create(params);

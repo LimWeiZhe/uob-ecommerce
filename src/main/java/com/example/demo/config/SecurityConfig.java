@@ -6,34 +6,31 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-// @Configuration marks the class a configuration for some aspect of Springboot
+// Add configuration for security, which marks a class for some aspect of Springboot
 @Configuration
-// @enablewebsecurity tells java this class is for web security
 @EnableWebSecurity
 public class SecurityConfig {
-    // a @bean method returns a component that is used by Spring Boot 
-    // think of it as a factory method that spring boot will use later, sometimes internally
-    // to create an instance of a component that it needs
-    // if springboot ever needs an object of the class 'SecurityFilterChain', it will call this method
-    @Bean
-   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    // the 'httpSecurity' class allows us to define secutity rules
-       http
-           .authorizeHttpRequests(authz -> authz
-                // if the url starts with /register,/login, /css or /js, can be accessed without login
-                // if not the cannot even login 
-               .requestMatchers("/register", "/login", "/css/**", "/js/**").permitAll()
-               .anyRequest().authenticated() // switch to .permitAll() to allow access , .authenticated()
-           )
-           // specify where the login form will be
-           .formLogin(form -> form
-               .loginPage("/login")
-               .permitAll()
-           )
-           .logout(logout -> logout
-               .permitAll()
-           );
-       return http.build();
-   }
+	// A bean method returns a component that is used by Springboot.
+	// Think of it as a factory method that springboot will use later, sometimes
+	// internally to
+	// create instances of a component that it needs.
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		// the httpSecurity class allows us to define security rules
+		http
+				.csrf(csrf -> csrf.ignoringRequestMatchers("/stripe/webhook"))
+				.authorizeHttpRequests(auth -> auth
+						// Ignore CSRF token for stripe webhook
+						.requestMatchers(
+								"/register", "/login", "/css/**", "/js/**", "/stripe/webhook" // All these urls can be accessed w/o
+																																							// login
+						)
+						.permitAll()
+						.anyRequest()
+						.authenticated())
+				.formLogin(form -> form.loginPage("/login").permitAll())
+				.logout(logout -> logout.permitAll());
+		return http.build();
+	}
 
 }
